@@ -1,9 +1,75 @@
 var state = {
     query: '',
-    mediaID: ''
+    year: '',
+    buy_HD: '',
+    buy_SD: '',
+    rent: '',
+    mediaID: '',
+    results: [],
+    spiderData: {}
 };
 
+
 var BASE_URL = "http://api-public.guidebox.com/v2/";
+
+
+// ================================================================================
+// Displays movie posters to screen
+//
+// 1) Work on dynmically adding each row and subsequent columns
+// 2) Eventually implement infinite scroll OR carousel horizontal scroll 
+// ================================================================================
+function displayPosters() {
+    var i = 1;
+    $('.col-4 div').empty();
+    state.results.forEach(function (result) {
+        console.log(result.title);
+        var $poster = $('<img>');
+        $poster.attr('id', result.id);
+        $poster.attr('src', result.poster_120x171);
+        var $label = $('<label>');
+        $label.attr('for', result.id);
+        $label.html('<h6>' + result.release_year + '</h6><h3>' + result.title + '</h3>');
+        // if(state.buy_HD) {
+        //     $label.append('<h6>' + state.buy_HD + '</h6>');
+        // }
+        //debugger;
+        $('#poster-' + (i)).html($poster);
+        $('#poster-' + (i++)).append($label);
+    });
+    if (state.buy_HD) {
+        $('#poster-1').append('<h6>' + state.buy_HD + '</h6>');
+    }
+    if (state.buy_SD) {
+        $('#poster-1').append('<h6>' + state.buy_SD + '</h6>');
+    }
+    if (state.rent) {
+        $('#poster-1').append('<h6>' + state.rent + '</h6>');
+    }
+}
+
+
+
+function getSpiderData(title, year) {
+   var buy_HD;
+   var buy_SD;
+   var rent;
+   
+   state.spiderData.data.forEach(function(obj) {
+        // console.log(obj.title + "   buy_HD: " + obj.buy_HD + "\n");
+        // debugger;
+        if (obj.title[0].includes(title) && obj.title[0].includes(year)) { //
+
+            buy_HD = obj.buy_HD;
+            buy_SD = obj.buy_SD;
+            // rent = obj.rent;
+        };
+   });
+   console.log(buy_HD + "     OR     " + buy_SD);
+   state.buy_HD = buy_HD;
+   state.buy_SD = buy_SD;
+   // state.rent = rent;
+}
 
 
 // ================================================================================
@@ -45,7 +111,6 @@ function searchByTitle(type, requestData, callback) {
         query: requestData
     };
     $.getJSON(SEARCH_BASE_URL, query, callback);
-    
 }
 
 function getMovieMetadata(movieID, callback) {
@@ -54,7 +119,7 @@ function getMovieMetadata(movieID, callback) {
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
     };
-    $.getJSON(SEARCH_BASE_URL, query, callback);
+    $.getJSON(MOVIE_BASE_URL, query, callback);
 }
 
 function getShowMetadata(showID, callback) {
@@ -67,23 +132,17 @@ function getShowMetadata(showID, callback) {
     $.getJSON(SHOW_BASE_URL, query, callback);
 }
 
-    // var queryString = requestData + "/?api_key=db85b00dc1a54c2a02ed61575609802bb3d8c498&include_links=true";
-   
-    // var httpReq = new XMLHttpRequest();
-    // httpReq.open("GET", BASE_URL + queryString.replace(/\s/ig, "%20", true)); 
-    // httpReq.onreadystatechange = function () {
-    //     if (httpReq.readyState !== 4) {
-    //         return;
-    //     }
+function searchIMDB(id) {
+    var IMDB_URL = 'http://www.omdbapi.com/';
+    var query = {
+        i: id,
+        plot: 'short'
+    };
+    $.getJSON(IMDB_URL, query, function(resp){
+        console.log(resp);
+    });
+}
 
-    //     if (httpReq.status !== 200) {
-    //         console.log("Could not find title");
-    //         throw new Error("Unexpected HTTP Status Code (" + httpReq.status + ")");
-    //     } 
-
-    //     callback(JSON.parse(httpReq.responseText));
-    // };
-    // httpReq.send();
 
 // ================================================================================
 // Event-listeners 
@@ -95,14 +154,20 @@ function movieFormSubmit() {
         state.query = $(this).find('.js-movie-query').val();
         searchByTitle("movie", state.query, function (resp) {
             console.log(resp);  
-            getMovieMetadata(resp.results[0].id, function (resp) {
+            state.results = resp.results; // stores array of movie results from search
+            
+            state.mediaID = resp.results[0].id; 
+            getMovieMetadata(state.mediaID, function (resp) {
                 console.log(resp);
+                searchIMDB(resp.imdb);
+                state.year = resp.release_year;
+                // debugger;
+                getSpiderData(state.query, resp.release_year);
+                displayPosters();
             });
         });
         // debugger;
-        // getMediaMetadata("movies", state.mediaID, function (resp) {
-        //     console.log(resp);
-        // });
+        // getSpiderData(state.query, state.year);
     });
 }
 
@@ -113,7 +178,8 @@ function showFormSubmit(){
         state.query = $(this).find('.js-show-query').val();
         searchByTitle("show", state.query, function (resp) {
             console.log(resp); 
-            getShowMetadata(resp.results[0].id, function (resp) {
+            var mediaID = resp.results[0].id;
+            getShowMetadata(mediaID, function (resp) {
                 console.log(resp);
             }); 
         });
@@ -127,7 +193,8 @@ function showFormSubmit(){
 $(function() {
     movieFormSubmit();
     showFormSubmit();
-})
+    state.spiderData = data;
+});
 
 
 

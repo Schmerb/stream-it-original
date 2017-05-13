@@ -1,0 +1,116 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: #F8F1E5;
+}
+
+nav {
+	text-align: center;
+	background: #2F3131; 
+	padding: 20px;
+}
+
+h1 {
+	display: inline-block;
+	font-size: 30px;
+	color: #426E86;
+	text-shadow: #F9BA32 0 0 1px;
+}
+
+button {
+	background: #F9BA32;
+	border-radius: 5px;
+	border: none;
+	box-shadow: 2px black;
+}
+
+input {
+	border-radius: 3px;
+}
+
+input:focus {
+	box-shadow: 0 0 10px black;
+}
+
+.container {
+	margin: 50px auto;
+	padding: 10px;
+	background: #426E86;
+	min-width: 191px;
+	max-width: 1000px;
+	border-radius: 3px;
+	box-shadow: 0 0 10px black;
+}
+
+.movie-form, .show-form {
+	display: inline-block;
+}
+
+.movie-form *:hover, 
+.show-form *:hover {
+	box-shadow: 0 0 10px black;
+}
+
+.inner-container {
+	margin: 5%;
+	background: #2F3131;
+	padding-top: 20px;
+	border-radius: 3px;
+	box-shadow: 0 0 10px black;
+}
+
+.inner-container h3, 
+.inner-container h6 {
+	margin: 0;
+	color: #F8F1E5;
+}
+
+.inner-container img {
+	margin-top: 15px;
+	position: relative;
+	top: 0px;
+	transition: transform .2s ease-in-out;
+}
+
+.inner-container img:hover {
+	box-shadow: 0 0 20px #F8F1E5; 
+	transition: all 0.6s ease 0s;
+	transform: translate3d(-3px, -3px, 0px);
+}
+
+#poster-1, #poster-2, 
+#poster-3, #poster-4,
+#poster-5, #poster-6 {
+	overflow: auto;
+	text-align: center;
+}
+
+.search-container {
+	margin: 10px 5%;
+}
+
+.search-label {
+	color: #2F3131;
+}
+
+.movie-form {
+	margin-bottom: 10px;
+}
+
+
+/*
+Modern & Urban -- Current
+#F9BA32 sunshine
+#426E86 steel blue
+#F8F1E5 bone
+#2F3131 coal
+
+Unique and Striking
+#CF6766  Crimson Sky
+#031424	 Ultramarine
+#30415D	 Indigo
+#8EAEBD  Light Blue
+*/
