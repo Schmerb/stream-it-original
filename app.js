@@ -96,6 +96,7 @@ function getAmazonData() {
     var hash = CryptoJS.HmacSHA256(stringToEncode, "EAlqTDpV+vTH9EqeB1Xw4UtapxbUSrmkvoY19J9j");
     var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
     var signature = encodeURIComponent(hashInBase64);
+    console.log("hashInBase64:   " + hashInBase64);
     console.log("signature:   " + signature);
     $.ajax({
         url: 'https://webservices.amazon.com/onca/xml/',
