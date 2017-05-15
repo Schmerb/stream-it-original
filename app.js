@@ -94,8 +94,8 @@ function getAmazonData() {
     var stringToEncode = 'GET\nwebservices.amazon.com\n/onca/xml\nAWSAccessKeyId=AKIAIQJDMYU5M2XBS5BA&AssociateTag=schmerb-20&Keywords=Alien&Operation=ItemSearch&ResponseGroup=Images%2CItemAttributes%2COffers&SearchIndex=All&Service=AWSECommerceService&Timestamp=' + stamp;
     console.log("stamp: " + stamp);
     var hash = CryptoJS.HmacSHA256(stringToEncode, "EAlqTDpV+vTH9EqeB1Xw4UtapxbUSrmkvoY19J9j");
-    // var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-    var signature = encodeURIComponent(hash);
+    var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+    var signature = encodeURIComponent(hashInBase64);
     console.log("signature:   " + signature);
     $.ajax({
         url: 'https://webservices.amazon.com/onca/xml/',
