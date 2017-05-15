@@ -98,7 +98,7 @@ function getAmazonData() {
     var signature = encodeURIComponent(hash);
     console.log("signature:   " + signature);
     $.ajax({
-        url: 'http://webservices.amazon.com/onca/xml',
+        url: 'https://webservices.amazon.com/onca/xml',
         data: {
             AWSAccessKeyId: 'AKIAIQJDMYU5M2XBS5BA',
             AssociateTag: 'schmerb-20',
