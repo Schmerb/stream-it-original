@@ -35,17 +35,28 @@ function displayPosters() {
         // }
         //debugger;
         $('#poster-' + (i)).html($poster);
-        $('#poster-' + (i++)).append($label);
+        $('#poster-' + (i)).append($label);
+        getSpiderData(result.title.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}), result.release_year);
+        if (state.buy_HD) {
+            $('#poster-' + i).append('<h6>' + state.buy_HD + '</h6>');
+        }
+        if (state.buy_SD) {
+            $('#poster-' + i).append('<h6>' + state.buy_SD + '</h6>');
+        }
+        if (state.rent) {
+            $('#poster-' + i).append('<h6>' + state.rent + '</h6>');
+        }
+        i++;
     });
-    if (state.buy_HD) {
-        $('#poster-1').append('<h6>' + state.buy_HD + '</h6>');
-    }
-    if (state.buy_SD) {
-        $('#poster-1').append('<h6>' + state.buy_SD + '</h6>');
-    }
-    if (state.rent) {
-        $('#poster-1').append('<h6>' + state.rent + '</h6>');
-    }
+    // if (state.buy_HD) {
+    //     $('#poster-1').append('<h6>' + state.buy_HD + '</h6>');
+    // }
+    // if (state.buy_SD) {
+    //     $('#poster-1').append('<h6>' + state.buy_SD + '</h6>');
+    // }
+    // if (state.rent) {
+    //     $('#poster-1').append('<h6>' + state.rent + '</h6>');
+    // }
 }
 
 
@@ -70,7 +81,41 @@ function getSpiderData(title, year) {
    state.buy_SD = buy_SD;
    // state.rent = rent;
 }
+ //http://webservices.amazon.co.uk/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&AWSAccessKeyId=AKIAIOSFODNN7EXAMPLE&Operation=ItemSearch&Actor=Johnny%20Depp&ResponseGroup=ItemAttributes,Offers,Images,Reviews,Variations&Version=2013-08-01&SearchIndex=DVD&Sort=salesrank&AssociateTag=mytag-20
+//GET
+//webservices.amazon.co.uk
+///onca/xml
+//AWSAccessKeyId=AKIAIOSFODNN7EXAMPLE&Actor=Johnny%20Depp&AssociateTag=mytag-20&Operation=ItemSearch&Operation=ItemSearch&ResponseGroup=ItemAttributes%2COffers%2CImages%2CReviews%2CVariations&SearchIndex=DVD&Service=AWSECommerceService&Sort=salesrank&Timestamp=2014-08-18T17%3A34%3A34.000Z&Version=2013-08-01
 
+function getAmazonData() {
+    var dt = new Date();
+    var stamp = dt.toISOString();
+    //http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIQJDMYU5M2XBS5BA&AssociateTag=schmerb-20&SearchIndex=All&Keywords=Alien&ResponseGroup=Images,ItemAttributes,Offers
+    var stringToEncode = 'GET\nwebservices.amazon.com\n/onca/xml\nAWSAccessKeyId=AKIAIQJDMYU5M2XBS5BA&AssociateTag=schmerb-20&Keywords=Alien&Operation=ItemSearch&ResponseGroup=Images%2CItemAttributes%2COffers&SearchIndex=All&Service=AWSECommerceService&Timestamp=' + stamp;
+    console.log("stamp: " + stamp);
+    var hash = CryptoJS.HmacSHA256(stringToEncode, "EAlqTDpV+vTH9EqeB1Xw4UtapxbUSrmkvoY19J9j");
+    // var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+    var signature = encodeURIComponent(hash);
+    console.log("signature:   " + signature);
+    $.ajax({
+        url: 'http://webservices.amazon.com/onca/xml',
+        data: {
+            AWSAccessKeyId: 'AKIAIQJDMYU5M2XBS5BA',
+            AssociateTag: 'schmerb-20',
+            Keywords: 'Alien',
+            Operation: 'ItemSearch',
+            ResponseGroup: 'Images,ItemAttributes,Offers', 
+            SearchIndex: 'All',
+            Service: 'AWSECommerceService',
+            Timestamp: stamp,
+            Signature: signature
+        }, 
+        success: function(resp) {console.log(resp)},
+        // crossDomain: true,
+        dataType: 'xml'
+    });
+}
+//'pv0NvwJc41fK0FM/w3UQUFDDvm8l%2ByPMsF4tBiTOzrI%3D';
 
 // ================================================================================
 // Guidebox API 
@@ -162,7 +207,7 @@ function movieFormSubmit() {
                 searchIMDB(resp.imdb);
                 state.year = resp.release_year;
                 // debugger;
-                getSpiderData(state.query, resp.release_year);
+                // getSpiderData(state.query.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}), resp.release_year);
                 displayPosters();
             });
         });
@@ -194,6 +239,7 @@ $(function() {
     movieFormSubmit();
     showFormSubmit();
     state.spiderData = data;
+    getAmazonData();
 });
 
 

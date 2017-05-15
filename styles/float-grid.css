@@ -32,9 +32,7 @@
   clear: both;
 }
 
-.row {
-  margin-bottom: 50px;
-}
+
 
 .col-4{
   float: left;
@@ -60,5 +58,9 @@
   /* 4 columns */
   .col-4 {
     width: 33.33%;
+  }
+
+  .row {
+    margin-bottom: 50px;
   }
 }
