@@ -1,106 +1,143 @@
 * {
 	box-sizing: border-box;
+	/*border: 1px solid red;*/
 }
 
 body {
 	margin: 0;
-	background: #F8F1E5;
+	background: #426E86;   /*F8F1E5;*/
 }
 
-nav {
+header {
+	/*position: relative;*/
+	top: 0;
+	left: 0;
 	text-align: center;
 	background: #2F3131; 
-	padding: 20px;
+	width: 100%;
+	padding: 10px;
+	padding-bottom: 0;
+	box-shadow: 0 0 10px black;
 }
 
-h1 {
-	display: inline-block;
-	font-size: 30px;
+header h1 {
 	color: #426E86;
 	text-shadow: #F9BA32 0 0 1px;
-}
-
-button {
-	background: #F9BA32;
-	border-radius: 5px;
-	border: none;
-	box-shadow: 2px black;
-}
-
-input {
-	border-radius: 3px;
-}
-
-input:focus {
-	box-shadow: 0 0 10px black;
-}
-
-.container {
-	margin: 50px auto;
-	padding: 10px;
-	background: #426E86;
-	min-width: 191px;
-	max-width: 1000px;
-	border-radius: 3px;
-	box-shadow: 0 0 10px black;
-}
-
-.movie-form, .show-form {
+	margin: 0;
+	font-size: 40px;
 	display: inline-block;
 }
 
-.movie-form *:hover, 
-.show-form *:hover {
-	box-shadow: 0 0 10px black;
+.movie-form {
+	display: inline-block;
+	width: 100%;
+	padding: 5px 0 0;
 }
+
+#query {
+	width: 100%;
+	background: #F8F1E5;
+	border: none;
+}
+
+#submit {
+	background: #2F3131;
+	width: 50px;
+	height: 50px;
+	/*border: 1px solid white;*/
+	border: none;
+	padding: 0;
+}
+
+#search-glass {
+	fill: #F9BA32;
+	height: 30px;
+	width: auto;
+}
+
 
 .inner-container {
-	margin: 5%;
-	background: #2F3131;
-	padding-top: 20px;
-	border-radius: 3px;
-	box-shadow: 0 0 10px black;
+	max-width: 1000px;
+	margin: auto;
+	text-align: center;
 }
 
-.inner-container h3, 
+.inner-container h3,
+.inner-container h4,  
 .inner-container h6 {
 	margin: 0;
 	color: #F8F1E5;
 }
 
-.inner-container img {
-	margin-top: 15px;
-	position: relative;
-	top: 0px;
-	transition: transform .2s ease-in-out;
-}
-
-.inner-container img:hover {
-	box-shadow: 0 0 20px #F8F1E5; 
-	transition: all 0.6s ease 0s;
-	transform: translate3d(-3px, -3px, 0px);
-}
-
-#poster-1, #poster-2, 
-#poster-3, #poster-4,
-#poster-5, #poster-6 {
-	overflow: auto;
+.inner-container ul {
 	text-align: center;
 }
 
-.search-container {
-	margin: 10px 5%;
+.inner-container li{
+	display: inline-block;
+	list-style-type: none;
+	/*margin: 10px 5px;*/
 }
 
-.search-label {
+.main-header {
 	color: #2F3131;
+	display: inline-block;
+	margin: 10px auto;
+
 }
 
-.movie-form {
-	margin-bottom: 10px;
+.movie-poster {
+	max-width: 220px;
+	width: 166px;
+	height: 236px;
+	box-shadow: 0 0 15px black;
+}
+
+@media only screen and (max-width: 415px){
+	header {
+		position: fixed;
+	}
+
+	.container {
+		width: 100%;
+		margin-top: 128px;
+		border: 1px solid blue;
+	}
+
+	.poster {
+		display: inline-block;
+		margin-bottom: 20px;
+	}
 }
 
 
+
+
+@media only screen and (min-width: 640px){
+
+	header h1 {
+		font-size: 20px;
+	}
+
+	.container {
+		
+	}
+	
+}
+
+@media only screen and (min-width: 830px){
+	#query {
+			width: 800px;
+			/*margin-left: */
+			margin-bottom: 30px;
+	}
+
+	#submit {
+		width: auto;
+		height: auto;
+		border: none;
+	}
+}
 /*
 Modern & Urban -- Current
 #F9BA32 sunshine
