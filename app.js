@@ -203,7 +203,7 @@ function searchTvShowsHandler() {
 //                                  status=running/ended (TV shows)
 //                                 
 // ================================================================================
-var GBOX_BASE_URL = "http://api-public.guidebox.com/v2/";
+var GBOX_BASE_URL = "https://api-public.guidebox.com/v2/";
 
 
 //http://api-public.guidebox.com/v2/movies?api_key=YOUR_API_KEY&limit=10
@@ -295,7 +295,7 @@ function getShowMetadata(showID, callback) {
 }
 
 function searchIMDB(id, callback) {
-    var IMDB_URL = 'http://www.omdbapi.com/';
+    var IMDB_URL = 'https://www.omdbapi.com/';
     var query = {
         i: id,
         plot: 'short'
