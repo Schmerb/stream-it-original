@@ -219,7 +219,7 @@ function getAllSources() {
 
 function getAllMovieImages(mediaID) {
     "use strict";
-    var MOVIE_IMAGES_URL = GBOX_BASE_URL + "movies/" + mediaID + "/images";
+    var MOVIE_IMAGES_URL = GBOX_BASE_URL + "movies/" + mediaID + "/images/";
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498"
     };
@@ -228,7 +228,7 @@ function getAllMovieImages(mediaID) {
 
 function getAllMovieTrailers(mediaID) {
     "use strict";
-    var MOVIE_TRAILERS_URL = GBOX_BASE_URL + "movies/" + mediaID + "/videos";
+    var MOVIE_TRAILERS_URL = GBOX_BASE_URL + "movies/" + mediaID + "/videos/";
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498"
     };
@@ -305,7 +305,7 @@ function searchIMDB(id, callback) {
 
 
 function searchItunes(mediaType, requestData, callback) {
-    var ITUNES_URL = 'https://itunes.apple.com/search';
+    var ITUNES_URL = 'https://itunes.apple.com/search/';
     var query = {
         term: encodeURIComponent(requestData),
         entity: mediaType
