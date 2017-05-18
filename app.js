@@ -153,7 +153,7 @@ function printRespToConsole(resp) {
 function searchMoviesHandler() {
     searchItunes('movie', state.query, printRespToConsole);
     searchGuideboxByTitle("movie", state.query, function (resp) {
-        //console.log(resp); 
+        console.log(resp); 
         state.movie_results = resp.results; // stores array of movie results from search
         if(state.movie_results.length > 0) {
             state.mediaID = resp.results[0].id; 
@@ -208,8 +208,47 @@ var GBOX_BASE_URL = "http://api-public.guidebox.com/v2/";
 
 //http://api-public.guidebox.com/v2/movies?api_key=YOUR_API_KEY&limit=10
 
-function getRecentTitles(limit) {
-    var RECENT_MOVIES_URL = GBOX_BASE_URL + 'movies';
+function getAllSources() {
+    "use strict";
+    var SOURCES_GBOX_URL = GBOX_BASE_URL + "sources/";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498"
+    };
+    $.getJSON(SOURCES_GBOX_URL, query, printRespToConsole);
+}
+
+function getAllMovieImages(mediaID) {
+    "use strict";
+    var MOVIE_IMAGES_URL = GBOX_BASE_URL + "movies/" + mediaID + "/images";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498"
+    };
+    $.getJSON(MOVIE_IMAGES_URL, query, printRespToConsole);
+}
+
+function getAllMovieTrailers(mediaID) {
+    "use strict";
+    var MOVIE_TRAILERS_URL = GBOX_BASE_URL + "movies/" + mediaID + "/videos";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498"
+    };
+    $.getJSON(MOVIE_TRAILERS_URL, query, printRespToConsole);
+}
+
+function getNewMovies(timestamp, callback) {
+    "use strict";
+    var NEW_MOVIES_URL = GBOX_BASE_URL + "updates/";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
+        object: "show",
+        type: "new",
+        time: timestamp
+    };
+    $.getJSON(NEW_MOVIES_URL, query, callback);
+}
+
+function getPopularTitles(limit) {
+    var RECENT_MOVIES_URL = GBOX_BASE_URL + 'movies/';
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
         limit: limit
@@ -226,28 +265,28 @@ function getRecentTitles(limit) {
 
 function searchGuideboxByTitle(type, requestData, callback) {
     "use strict";
-    var SEARCH_GBOX_BASE_URL = GBOX_BASE_URL + "search";
+    var SEARCH_GBOX_URL = GBOX_BASE_URL + "search/";
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
         type: type,
         field: "title",
         query: requestData
     };
-    $.getJSON(SEARCH_GBOX_BASE_URL, query, callback);
+    $.getJSON(SEARCH_GBOX_URL, query, callback);
 }
 
 function getMovieMetadata(movieID, callback) {
     "use strict";
-    var MOVIE_GBOX_BASE_URL = GBOX_BASE_URL + "movies/" + movieID;
+    var MOVIE_GBOX_URL = GBOX_BASE_URL + "movies/" + movieID;
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
     };
-    $.getJSON(MOVIE_GBOX_BASE_URL, query, callback);
+    $.getJSON(MOVIE_GBOX_URL, query, callback);
 }
 
 function getShowMetadata(showID, callback) {
     "use strict";
-    var SHOW_GBOX_BASE_URL = GBOX_BASE_URL + "shows/" + showID + "/episodes";
+    var SHOW_GBOX_BASE_URL = GBOX_BASE_URL + "shows/" + showID + "/episodes/";
     var query = {
         api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
         include_links: true
@@ -307,7 +346,15 @@ function showPosterClick() {
 // Entry point
 // ================================================================================
 $(function() {
-    getRecentTitles(50);
+    // getAllSources();
+    getAllMovieImages(112659);
+    getAllMovieTrailers(112659);
+    getNewMovies(1493940909, function(resp) {
+        resp.results.forEach(function(movie) {
+            getMovieMetadata(movie.id, printRespToConsole);
+        });
+    });
+    getPopularTitles(50);
     searchFormSubmit();
     // showFormSubmit();
     showPosterClick();
