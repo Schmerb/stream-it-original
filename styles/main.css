@@ -5,7 +5,7 @@
 
 body {
 	margin: 0;
-	background: #426E86;   /*F8F1E5;*/
+	background: #2F3131;  /*426E86;*/   /*F8F1E5;*/
 }
 
 header {
@@ -13,22 +13,23 @@ header {
 	top: 0;
 	left: 0;
 	text-align: center;
-	background: #2F3131; 
+	background: #426E86; 
 	width: 100%;
 	padding: 10px;
 	padding-bottom: 0;
-	box-shadow: 0 0 10px black;
+	box-shadow: 0 0 10px #426E86;
+	z-index: 10;
 }
 
 header h1 {
-	color: #426E86;
+	color: #2F3131;
 	text-shadow: #F9BA32 0 0 1px;
 	margin: 0;
 	font-size: 40px;
 	display: inline-block;
 }
 
-.movie-form {
+.search-form {
 	display: inline-block;
 	width: 100%;
 	padding: 5px 0 0;
@@ -40,11 +41,16 @@ header h1 {
 	border: none;
 }
 
+#query:active{
+	box-shadow: 0 0 10px black;
+}
+
 #submit {
-	background: #2F3131;
-	width: 50px;
-	height: 50px;
-	/*border: 1px solid white;*/
+	background: #426E86;
+	width: 40px;
+	height: 40px;
+	margin-top: 3px;
+	opacity: none;
 	border: none;
 	padding: 0;
 }
@@ -53,44 +59,86 @@ header h1 {
 	fill: #F9BA32;
 	height: 30px;
 	width: auto;
+	stroke-opacity: none;
+}
+
+#search-glass:active {
+	filter: drop-shadow(0 0 2px #000);
 }
 
 
-.inner-container {
+.landing {
 	max-width: 1000px;
 	margin: auto;
 	text-align: center;
 }
 
-.inner-container h3,
-.inner-container h4,  
-.inner-container h6 {
+.landing h3,
+.landing h4,  
+.landing h6 {
 	margin: 0;
 	color: #F8F1E5;
 }
 
-.inner-container ul {
+.landing ul {
 	text-align: center;
 }
 
-.inner-container li{
+.landing li{
 	display: inline-block;
 	list-style-type: none;
 	/*margin: 10px 5px;*/
 }
 
+
+
+
+
+
+
+.landing img:active {
+	box-shadow: 0 0 20px #F8F1E5; 
+	transition: all 0.6s ease 0s;
+	transform: translate3d(-2px, -2px, 0px);
+}
+
+
 .main-header {
-	color: #2F3131;
+	color: #426E86;
 	display: inline-block;
 	margin: 10px auto;
-
+	text-shadow: 0 0 1px #F9BA32;
 }
 
 .movie-poster {
 	max-width: 220px;
 	width: 166px;
 	height: 236px;
-	box-shadow: 0 0 15px black;
+	box-shadow: 0 0 15px #426E86;
+}
+
+.landing {
+	border: 1px solid white;
+}
+
+.icon {
+	display: inline;
+	width: 45px;
+	height: auto;
+	border-radius: 8px;
+}
+
+.rating-icon {
+	width: 30px;
+	height: auto;
+}
+
+.rotten {
+	height: 18px;
+}
+
+.hidden {
+	display: none;
 }
 
 @media only screen and (max-width: 415px){
@@ -98,7 +146,7 @@ header h1 {
 		position: fixed;
 	}
 
-	.container {
+	main {
 		width: 100%;
 		margin-top: 128px;
 		border: 1px solid blue;
@@ -113,21 +161,22 @@ header h1 {
 
 
 
-@media only screen and (min-width: 640px){
+/*@media only screen and (min-width: 640px){
 
 	header h1 {
 		font-size: 20px;
 	}
 
-	.container {
+	main {
 		
 	}
 	
-}
+}*/
 
-@media only screen and (min-width: 830px){
+@media only screen and (min-width: 660px){
+
 	#query {
-			width: 800px;
+			width: 750px;
 			/*margin-left: */
 			margin-bottom: 30px;
 	}
@@ -137,7 +186,169 @@ header h1 {
 		height: auto;
 		border: none;
 	}
+
+	#query:active{
+		box-shadow: 0 0 10px black;
+	}
+
+	#search-glass {
+		transform: translateX(-5px) translateY(8px);
+	}
+
+	#search-glass:active {
+		filter: drop-shadow(0 0 2px #000);
+	}
+
+	.container {
+		max-width: 900px;
+		margin: auto;
+	}
+
+	
+
+	.detail-page {
+		color: #F8F1E5;
+		position: relative;
+		margin-top: 30px;
+		border: 1px solid white;
+		height: 700px;
+	}
+
+	.detail-page dd{
+		margin-left: 0;
+		display: inline-block;
+	}
+
+
+	.detail-page a {
+		text-decoration: none;
+	}
+
+	.detail-page a:link {
+		color: #F8F1E5;
+	}
+
+	.detail-page a:visited {
+		color: aqua;
+	}
+
+	#detail-poster-container {
+		display: inline-block;
+		width: 240px;
+		font-size: 0;
+	}
+
+	#poster-title {
+		border: 1px solid blue;
+		display: inline-block;
+		float: left;
+		text-align: center;
+		width: 105px;
+		padding-left: 4px;
+		font-size: 15px;
+	}
+
+
+	#movie-ratings {
+		border: 1px solid red;
+		display: inline-block;
+		float: right;
+		height: 50px;
+		font-size: 15px;
+	}
+
+	#stream-options {
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 1px solid white;
+		/*width: 70%;*/
+	}
+
+	#stream-options  {
+		color: #F8F1E5;
+		margin-bottom: 5px;
+	}
+
+	#stream-options dl {
+		margin: 0;
+	}
+
+	#web-purch-srcs > dd {
+		margin: 0 3px;;
+	}
+
+	#stream-options dd label{
+		display: block;
+		font-size: 10px;
+	}
+
+	.prices dd {
+		display: block;
+	}
+
+	#web-purch-srcs,
+	#web-sub-srcs,
+	#web-free-srcs,
+	#web-tv-srcs {
+		text-align: left;
+		border: 1px solid white;
+		padding: 10px;
+	}
+
+	/* *********Carrousel Styling********* */	
+	.carousel-container {
+		background: rgb(42, 70, 85);
+		width: 80%;
+		overflow: hidden;
+		margin: 0 auto;
+		border-radius: 15px;
+	}
+
+	.detail-page li{
+		display: inline-block;
+		z-index: 2;
+	}
+
+	.detail-page li img:hover{
+		display: inline-block;
+		box-shadow: 0 0 20px #F8F1E5; 
+		 -webkit-transform:scale(1.05);
+		transition: all 0.3s ease 0s;
+	}
+
+	.slick-dotted.slick-slider
+	{
+		margin: 0 3px;
+		padding: 10px;
+	}
+
+	.slick-next {
+		right: 5px;
+	}
+	
+
+	.slick-prev {
+		left: 5px;
+	}
+	.slick-next,
+	.slick-prev {
+		top: 10%;
+		z-index: 5;
+	}
+
+
+	/* *********************************** */	
+
+	.landing img:hover {
+		box-shadow: 0 0 20px #F8F1E5; 
+		transition: all 0.6s ease 0s;
+		transform: translate3d(-3px, -3px, 0px);
+	}
 }
+
+
 /*
 Modern & Urban -- Current
 #F9BA32 sunshine

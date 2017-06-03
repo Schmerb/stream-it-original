@@ -1,25 +1,50 @@
 var state = {
     query: '',
+    infinite_scroll: true,
+    offset: 0,
     year: '',
     mediaID: '',
     movie_results: [],
-    show_results: [],
-    buy_HD: '',
-    buy_SD: '',
-    rent_HD: '',
-    rent_SD: '',
-    spiderData: {}
+    show_results: []
+    // buy_HD: '',
+    // buy_SD: '',
+    // rent_HD: '',
+    // rent_SD: '',
+    // spiderData: {}
 };
 
+var LANDING = '.landing';
+
+var DETAIL_PAGE = '.detail-page';
+var DETAIL_POSTER_CONTAINER = '#detail-poster-container';
+var DETAIL_POSTER = '#detail-poster';
+var POSTER_TITLE = '#poster-title';
+var MOVIE_RATINGS = '#movie-ratings';
+var IMDB = '#imdb';
+var ROTTEN_SCORE = '#rotten_score';
+
+var STREAM_OPTIONS = '#stream-options';
+var WEB_PURCH_SRCS = '#web-purch-srcs';
+var WEB_SUB_SRCS = '#web-sub-srcs';
+var WEB_TV_SRCS = '#web-tv-srcs';
+var WEB_FREE_SRCS = '#web-free-srcs';
+
+var HORIZONTAL_SCROLL_WRAPPER = '.horizontal-scroll-wrapper';
 // ================================================================================
-// Displays movie posters to screen
-//
-// 1) Work on dynmically adding each row and subsequent columns
-// 2) Eventually implement infinite scroll OR carousel horizontal scroll 
+//   Display query results to screen
 // ================================================================================
+
+
+/*
+ * Displays movie posters to screen
+ *
+ * 1) Work on dynmically adding each row and subsequent columns
+ * 2) Eventually implement infinite scroll OR carousel horizontal scroll 
+ */
 function displayMoviePosters() {
-    $('.inner-container').removeClass('hidden');
-    var i = 0;
+    $(DETAIL_PAGE).addClass('hidden');
+    $(LANDING).removeClass('hidden');
+    var i = state.offset;
     var current_row_id = 0;
 
     state.movie_results.forEach(function (movie) {
@@ -30,17 +55,19 @@ function displayMoviePosters() {
             $row.attr('class', 'row');
             $row.attr('id', 'row_' + i);
             current_row_id = i;
-            $('.inner-container').append($row);
+            $(LANDING).append($row);
 
         }
         var $col = $('<div>').attr('class', 'col-3');
         var $content = $('<div>').attr({'class': 'poster', 'id': 'content_' + i});
         var posterSize = movie.poster_240x342;  //120x171;
-        console.log(screen.width);
+        // console.log(screen.width);
         // if(screen.width < 460) {
         //     posterSize = movie.poster_240x342;
         // }
-        var $poster = $('<img>').attr({'id': movie.id, 'class': 'movie-poster', 'src': posterSize}); //poster_240x342
+        var $poster = $('<img>').attr({'id': movie.id, 'class': 'movie-poster', 
+                        'src': posterSize,
+                        'data-imdb': movie.imdb}); //poster_240x342
         var $label = $('<label>').attr('for', movie.id);
 
         $label.html('<h6>' + movie.release_year + '</h6><h3>' + movie.title + '</h3>');
@@ -53,33 +80,20 @@ function displayMoviePosters() {
 
         i++;
     });
-    var imgs = document.getElementsByTagName("img");
-    console.log(imgs[1].clientWidth);
-}
-
-function displayMoviePostersMobile() {
-    var $ul = $('<ul>');
-    $('.inner-container').html($ul);
-    state.movie_results.forEach(function(movie) {
-        var $li = $('<li>');
-        var $poster = $('<img>').attr({'id': movie.id, 'src': movie.poster_120x171});
-        var $label = $('<label>').attr('for', movie.id);
-        $label.html('<h6>' + movie.release_year + '</h6><h3>' + movie.title + '</h3>');
-        $li.html($poster).append($label);
-        $('.inner-container ul').append($li);
-    });
+    // var imgs = document.getElementsByTagName("img");
+    // console.log('image width: ' + imgs[1].width);
 }
 
 
-// ================================================================================
-// Displays show posters to screen
-//
-// ================================================================================
+
+/*
+ * Displays show posters to screen
+ */
 function displayTvPosters() {
-    $('.inner-container').removeClass('hidden');
+    $(LANDING).removeClass('hidden');
     var i = 208;
     var current_row_id = 0;
-    // $('.inner-container').empty();
+
     state.show_results.forEach(function(show) {
         //console.log(show.title);
         if ((i % 4) == 0) {
@@ -87,7 +101,7 @@ function displayTvPosters() {
             $row.attr('class', 'row');
             $row.attr('id', 'row_' + i);
             current_row_id = i;
-            $('.inner-container').append($row);
+            $(LANDING).append($row);
 
         }
         var $col = $('<div>').attr('class', 'col-3');
@@ -105,24 +119,23 @@ function displayTvPosters() {
 }
 
 
-// ================================================================================
-// Displays episodes to screen
-//
-// ================================================================================
+/*
+ * Displays episodes to screen
+ */
 function displayShowEpisodes(resp) {
     var i = 0;
     var current_row_id = 0;
-    $('.inner-container').empty();
+    
     resp.results.forEach(function(episode) {
         if ((i % 4) == 0) {
             var $row = $('<div>');
             $row.attr('class', 'row');
             $row.attr('id', 'row_' + i);
             current_row_id = i;
-            $('.inner-container').append($row);
+            $(LANDING).append($row);
 
         }
-        var $col = $('<div>').attr('class', 'col-3');
+        var $col = $('<div>').attr('class', 'col-4');
         var $content = $('<div>').attr({'class': 'poster', 'id': 'content_' + i});
         var $poster = $('<img>').attr({'id': episode.id, 'src': episode.thumbnail_208x117});
         var $label = $('<label>').attr('for', episode.id);
@@ -137,50 +150,166 @@ function displayShowEpisodes(resp) {
 }
 
 
-// ================================================================================
-// Used as generic callback function to print JSON return data to console.
+// * * * * * * * * * * * * * * * * * * * * 
+// Detail page for specific movie
+// * * * * * * * * * * * * * * * * * * * * 
+function displayDetailPage(movie, imdb) {
+    $(LANDING).empty();
+    $(LANDING).addClass('hidden');
+    // $(DETAIL_PAGE).empty();
+    $(DETAIL_PAGE).removeClass('hidden');
+    
+    console.log("Coming from displayDetail()", imdb);
+    // var icon_array = Object.entries(icons);
+    // var icon_imgs = [];
+    // icon_array.forEach(function(icon) {
+    //     icon_imgs.push('<img src="' + icon[1] +'" class="icon">');
+    // });
+    // $(DETAIL_PAGE).append(icon_imgs);
+
+
+   
+    // var $poster = $('<div id="detail-poster-container">').html('<img src="' + movie.poster_240x342 +'" id="detail-poster">');
+    // $(DETAIL_PAGE).append($poster); // Displays main poster image
+
+    // var $stream_options = $('<div id="stream-options"></div>');
+    // $(DETAIL_PAGE).append($stream_options);
+    $(POSTER_TITLE).empty();
+    $('label[for=imdb]').empty();
+    $('label[for=rotten_score]').empty();
+    $(STREAM_OPTIONS).empty();
+
+    $(DETAIL_POSTER).attr('src', movie.poster_240x342);
+    var $title = $(`<label for="detail-poster">${movie.title}</label><br>`);
+    var $year = $(`<span>(${movie.release_year})</span>`);
+    $(POSTER_TITLE).append($title, $year);
+
+    $('label[for=imdb]').text(imdb.Ratings[0].Value);
+    $('label[for=rotten_score]').text(imdb.Ratings[1].Value);
+
+
+    var $dl_purch = $('<dl id="web-purch-srcs"></dl>');
+    var $dl_sub = $('<dl id="web-sub-srcs"></dl>');
+    var $dl_tv = $('<dl id="web-tv-srcs"></dl>');
+    var $dl_free = $('<dl id="web-free-srcs"></dl>');
+
+    var purch_srcs_arr = getSrcList(movie.purchase_web_sources);
+    var sub_srcs_arr = getSrcList(movie.subscription_web_sources);
+    var tv_srcs_arr = getSrcList(movie.tv_everywhere_web_sources);
+    var free_srcs_arr = getSrcList(movie.free_web_sources);
+
+    
+ 
+    // Displays the different sources as lists, if any exist for each source type
+    
+    if(purch_srcs_arr.length > 0) {
+        $(STREAM_OPTIONS).append($dl_purch);
+        $dl_purch.append('<dt>Buy / Rent</dt>');
+        $dl_purch.append(purch_srcs_arr.join(''));
+    }
+
+    if(sub_srcs_arr.length > 0) {
+        $(STREAM_OPTIONS).append($dl_sub);
+        $dl_sub.append('<dt>Subscriptions</dt>');;
+        $dl_sub.append(sub_srcs_arr.join(''));
+    }
+
+    if(tv_srcs_arr.length > 0) {
+        $(STREAM_OPTIONS).append($dl_tv);
+        $dl_tv.append('<dt>TV</dt>');
+        $dl_tv.append(tv_srcs_arr.join(''));
+    }
+
+    if(free_srcs_arr.length > 0) {
+        $(STREAM_OPTIONS).append($dl_free);
+        $dl_free.append('<dt>Free</dt>');
+        $dl_free.append(free_srcs_arr.join(''));
+    }
+}
+
 //
+// Helper function
+// Returns list item with source name and link to source
+//
+function getSrcList(sources) {
+    return sources.map(function(src) {
+        return '<dd><a href="' + src.link + '" target="__blank"><img src="' + icons[src.source] + '" class="icon"></a></dd>';
+    })
+}
+
 // ================================================================================
+//    API Handlers and helper functions
+// ================================================================================
+
+
+var MAX_RESULTS = 52;//52; // This number MUST be a multiple of 4 for grid system to function
+
+/*
+ * Used as generic callback function to print JSON return data to console.
+ */
 function printRespToConsole(resp) {
     console.log(resp);
 }
 
+/*
+ * Handles popular movie api calls for landing / home page.
+ */
+function loadLandingPage(limit, offset, sources) {
+    state.infinite_scroll = true;
+    getPopularTitles(limit, offset, sources, function(resp) {
+        state.movie_results = resp.results; // stores array of movie results from search
+        if(state.movie_results.length > 0) {
+            console.log(resp);
+            state.mediaID = resp.results[0].id; 
+            displayMoviePosters();
+        }
+    });
+}
 
-// ================================================================================
-// Handles movie API calls and return data
-//
-// ================================================================================
+/*
+ *
+ */
+function infiniteScroll() {
+    $(document).ready(function() {
+        var win = $(window);
+
+        win.scroll(function () {
+            if(state.infinite_scroll && ($(document).height() - win.height() == win.scrollTop())) {
+                //add loading message
+                state.offset += MAX_RESULTS;
+                loadLandingPage(MAX_RESULTS, state.offset);
+            }
+        });
+    });
+}
+
+/*
+ * Handles movie API calls and return data
+ */ 
 function searchMoviesHandler() {
-    searchItunes('movie', state.query, printRespToConsole);
+    // searchItunes('movie', state.query, printRespToConsole);
     searchGuideboxByTitle("movie", state.query, function (resp) {
-        console.log(resp); 
+        // console.log(resp); 
         state.movie_results = resp.results; // stores array of movie results from search
         if(state.movie_results.length > 0) {
             state.mediaID = resp.results[0].id; 
             displayMoviePosters();
         }
     });
-    $('.inner-container').prepend('<h2 class="main-header">movies</h2>');
+    $(LANDING).prepend('<h2 class="main-header">movies</h2>');
 }
 
 
-// getMovieMetadata(state.mediaID, function (resp) {
-//     // console.log(resp);
-//     searchIMDB(resp.imdb, printRespToConsole);
-//     state.year = resp.release_year;
-//     displayMoviePosters();
-// });
-
-// ================================================================================
-// Handles tvshow API calls and return data
-//
-// ================================================================================
+/*
+ * Handles tvshow API calls and return data
+ */
 function searchTvShowsHandler() {
-    searchItunes('tvShow', state.query, printRespToConsole);
+    // searchItunes('tvShow', state.query, printRespToConsole);
     searchGuideboxByTitle("show", state.query, function (resp) {
         state.show_results = resp.results; // stores array of show results from search
+        console.log(resp);
         if (state.show_results.length > 0) {
-            // console.log(resp); 
+            console.log(resp);  
             displayTvPosters();
         }
     });
@@ -207,6 +336,67 @@ var GBOX_BASE_URL = "https://api-public.guidebox.com/v2/";
 
 
 //http://api-public.guidebox.com/v2/movies?api_key=YOUR_API_KEY&limit=10
+
+function getPopularTitles(limit, offset, sources, callback) {
+    var RECENT_MOVIES_URL = GBOX_BASE_URL + 'movies/';
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
+        limit: limit,
+        offset: offset,
+        sources: sources
+    };
+    $.getJSON(RECENT_MOVIES_URL, query, callback);
+}
+
+function searchGuideboxByTitle(type, requestData, callback) {
+    "use strict";
+    var SEARCH_GBOX_URL = GBOX_BASE_URL + "search/";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
+        type: type,
+        field: "title",
+        query: requestData
+    };
+    $.getJSON(SEARCH_GBOX_URL, query, callback);
+}
+
+function getMovieMetadata(movieID, callback) {
+    "use strict";
+    var MOVIE_GBOX_URL = GBOX_BASE_URL + "movies/" + movieID;
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
+    };
+    $.getJSON(MOVIE_GBOX_URL, query, callback);
+}
+
+function getShowMetadata(showID, callback) {
+    "use strict";
+    var SHOW_GBOX_BASE_URL = GBOX_BASE_URL + "shows/" + showID + "/episodes/";
+    var query = {
+        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
+        include_links: true
+    };
+    $.getJSON(SHOW_GBOX_BASE_URL, query, callback);
+}
+
+function searchIMDB(id, callback) {
+    var IMDB_URL = 'https://www.omdbapi.com/';
+    var query = {
+        i: id,
+        plot: 'short',
+        apikey: '48bffb4a'
+    };
+    $.getJSON(IMDB_URL, query, callback);
+}
+
+function searchItunes(mediaType, requestData, callback) {
+    var ITUNES_URL = 'https://itunes.apple.com/search/';
+    var query = {
+        term: encodeURIComponent(requestData),
+        entity: mediaType
+    };
+    $.getJSON(ITUNES_URL, query, callback);
+}
 
 function getAllSources() {
     "use strict";
@@ -247,97 +437,98 @@ function getNewMovies(timestamp, callback) {
     $.getJSON(NEW_MOVIES_URL, query, callback);
 }
 
-function getPopularTitles(limit) {
-    var RECENT_MOVIES_URL = GBOX_BASE_URL + 'movies/';
-    var query = {
-        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
-        limit: limit
-    };
-    $.getJSON(RECENT_MOVIES_URL, query, function(resp) {
-        state.movie_results = resp.results; // stores array of movie results from search
-        if(state.movie_results.length > 0) {
-            console.log(resp);
-            state.mediaID = resp.results[0].id; 
-            displayMoviePosters();
-        }
+// ================================================================================
+// Slick init
+// ================================================================================
+function initSlick() {
+    $('.responsive').slick({
+        dots: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        responsive: [
+            {
+            breakpoint: 1025,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                infinite: true,
+                dots: true
+            }
+            },
+            {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+            },
+            {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
     });
 }
-
-function searchGuideboxByTitle(type, requestData, callback) {
-    "use strict";
-    var SEARCH_GBOX_URL = GBOX_BASE_URL + "search/";
-    var query = {
-        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
-        type: type,
-        field: "title",
-        query: requestData
-    };
-    $.getJSON(SEARCH_GBOX_URL, query, callback);
-}
-
-function getMovieMetadata(movieID, callback) {
-    "use strict";
-    var MOVIE_GBOX_URL = GBOX_BASE_URL + "movies/" + movieID;
-    var query = {
-        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
-    };
-    $.getJSON(MOVIE_GBOX_URL, query, callback);
-}
-
-function getShowMetadata(showID, callback) {
-    "use strict";
-    var SHOW_GBOX_BASE_URL = GBOX_BASE_URL + "shows/" + showID + "/episodes/";
-    var query = {
-        api_key: "db85b00dc1a54c2a02ed61575609802bb3d8c498",
-        include_links: true
-    };
-    $.getJSON(SHOW_GBOX_BASE_URL, query, callback);
-}
-
-function searchIMDB(id, callback) {
-    var IMDB_URL = 'https://www.omdbapi.com/';
-    var query = {
-        i: id,
-        plot: 'short'
-    };
-    $.getJSON(IMDB_URL, query, callback);
-}
-
-
-function searchItunes(mediaType, requestData, callback) {
-    var ITUNES_URL = 'https://itunes.apple.com/search/';
-    var query = {
-        term: encodeURIComponent(requestData),
-        entity: mediaType
-    };
-    $.getJSON(ITUNES_URL, query, callback);
-}
-
 
 // ================================================================================
 // Event-listeners 
 // ================================================================================
 
 function searchFormSubmit() {
-    $('.movie-form').submit(function(e) {
+    $('.search-form').submit(function(e) {
         e.preventDefault();
+        state.infinite_scroll = false;
         state.query = $(this).find('.js-movie-query').val();
-        $('.inner-container').addClass('hidden');
-        $('.inner-container').empty();
-
+        $(LANDING).addClass('hidden');
+        $(LANDING).empty();
+        $('.search-form')[0].reset();
         searchMoviesHandler();
         searchTvShowsHandler();
     });
 }
 
 function showPosterClick() {
-    $('.inner-container').on('click', '.tv', function(e) {
+    $(LANDING).on('click', '.tv', function(e) {
         e.preventDefault();
         getShowMetadata($(this).attr('id'), function (resp) {
-            console.log("\n\n\nepisodes:");
+            // console.log("\n\n\nepisodes:");
             console.log(resp);
+            $(LANDING).empty();
             displayShowEpisodes(resp);
         });
+    });
+}
+
+function moviePosterClick() {
+    $(LANDING).on('click', '.movie-poster', function(e) {
+        e.preventDefault();
+        state.infinite_scroll = false;
+        getMovieMetadata($(this).attr('id'), function(resp) {
+            console.log(resp);
+            // getAllMovieImages(resp.id);
+            searchIMDB(resp.imdb, function(imdb_resp) {
+                displayDetailPage(resp, imdb_resp);
+            });
+        });
+
+    });
+}
+
+function logoClick() {
+    $('#logo').click(function(e) {
+        e.preventDefault();
+        state.offset = 0;
+        $(LANDING).empty();
+        $(LANDING).append('<h1 class="main-header">Browse Popular Titles</h1>');
+        loadLandingPage(MAX_RESULTS, 0, all);
     });
 }
 
@@ -345,21 +536,28 @@ function showPosterClick() {
 // ================================================================================
 // Entry point
 // ================================================================================
+var all = 'purchase,tv_everywhere,subscription,free';
+
 $(function() {
     // getAllSources();
-    getAllMovieImages(112659);
-    getAllMovieTrailers(112659);
-    getNewMovies(1493940909, function(resp) {
-        resp.results.forEach(function(movie) {
-            getMovieMetadata(movie.id, printRespToConsole);
-        });
-    });
-    getPopularTitles(50);
-    searchFormSubmit();
-    // showFormSubmit();
-    showPosterClick();
-    state.spiderData = data;
+    // getAllMovieImages(112659);
+    // getAllMovieTrailers(112659);
+    // getNewMovies(1493940909, function(resp) {
+    //     resp.results.forEach(function(movie) {
+    //         getMovieMetadata(movie.id, printRespToConsole);
+    //     });
+    // });
     // getAmazonData();
+    // state.spiderData = data;
+
+    // loadLandingPage(MAX_RESULTS, 0, all); //purchase,tv_everywhere,subscription,free
+    // infiniteScroll();
+    logoClick();
+    searchFormSubmit();
+    moviePosterClick();
+    showPosterClick();
+    initSlick();
+    // searchIMDB('tt0078748', printRespToConsole);
 });
 
 

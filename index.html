@@ -1,38 +1,174 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Guidebox search</title>
+	<title>Stream It</title>
 	<meta charset="utf-8" name="Guidebox Search" content="A search engine to find where you can currently stream any movie or tv show from various popular video streaming services including Netflix, Amazon Prime, Hulu , Youtube and much more.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Normalize.css, a cross-browser reset file -->
- 	 <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+ 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./slick-1.6.0/slick/slick-theme.css"/>
 	<link rel="stylesheet" type="text/css" href="styles/main.css">
 	<link rel="stylesheet" type="text/css" href="styles/float-grid.css">
+	<!--<link rel="stylesheet" type="text/css" href="styles/horizontal-scroll.css">-->
 </head>
 <body>
 	<header>
-		<h1>Stream It</h1>
-		<form class="movie-form" autocomplete="off">
+		<h1 id="logo">Stream It</h1>
+		<form class="search-form" autocomplete="off">
 			<input id="query" class="js-movie-query" type="text" name="movie-query" placeholder="Search for movies or tvshows . . ." required>
 			<button for="query" id="submit" type="submit"><svg id="search-glass" version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M14 8c1.656 0 3 1.344 3 3s-1.344 3-3 3-3-1.344-3-3 1.344-3 3-3m0-1c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zM4.195 17.674c0 1.727 1.404 3.131 3.131 3.131.756 0 1.503-.277 2.104-.783l2.397-2.386c.685.227 1.412.364 2.173.364 3.86 0 7-3.141 7-7s-3.14-7-7-7c-3.859 0-7 3.141-7 7 0 .761.136 1.486.364 2.173l-2.245 2.283c-.596.59-.924 1.378-.924 2.218zm6.459-1.694l-2.512 2.511c-.223.187-.504.313-.816.313-.624 0-1.131-.506-1.131-1.131 0-.311.127-.594.332-.797l2.492-2.531c.435.645.99 1.2 1.635 1.635zm3.346.02c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></button>
 		</form>
 	</header>
-	
 
-	<div class="container">
-		
-		<div class="inner-container hidden">
-			<h1 class="main-header">Browse Popular Titles</h1>
+	<main>
+		<div class="container">
+			<section class="landing hidden">
+				<h1 class="main-header">Browse Popular Titles</h1>
+
+			</section>
+			
+			<section class="detail-page" class="hidden">
+				<div class="carousel-container">
+					<ul class="responsive">
+						<li><img src="./assets/posters/alien-small-120x171.jpg"></li>
+						<li><img src="./assets/posters/aliens-small-120x171-alt-.jpg"></li>
+						<li><img src="./assets/posters/alien3-small-120x171.jpg"></li>
+						<li><img src="./assets/posters/alien-ressurection-small-120x171-alt-.jpg"></li>
+						<li><img src="./assets/posters/avp-small-120x171.jpg"></li>
+						<li><img src="./assets/posters/avp-requiem-small-120x171.jpg"></li>
+						<li><img src="./assets/posters/spaceballs-small-120x171-alt-.jpg"></li>
+						<li><img src="./assets/posters/ep-I-small-120x171-alt-.jpg"></li>
+					</ul>
+				</div>
 				
-		</div>
+				
+				
+				
+				
+				
+				
+				
+				
 
-	</div> <!-- container -->
+				<div id="detail-poster-container">
+					<img id="detail-poster" src="http://static-api.guidebox.com/060515/thumbnails_movies_medium/130292-1141974368-8875474711-2946272376-medium-240x342-alt-.jpg" alt="">
+					<div id="poster-title">
+						<!--<label>War Room</label><br>
+						<span>(2015)</span>-->
+					</div>
+					<div id="movie-ratings">
+						<img id="imdb" src="assets/icons/imdb-long.png" alt="" class="rating-icon">
+						<label for="imdb">8.5</label>
+						<img id="rotten-score" src="assets/icons/rotten-tomatoe.png" alt="" class="rotten">
+						<label for="rotten-score">97%</label>
+					</div>
+				</div>
+
+				<div id="stream-options">
+					<!--<dl id="web-purch-srcs">
+						<dt>Buy / Rent</dt>
+						<dd>
+							<img id="itunes" src="assets/icons/itunes.jpeg" alt="" class="icon">
+							<label for="itunes">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="amazon_buy" src="assets/icons/amazon_buy.png" alt="" class="icon">
+							<label for="amazon_buy">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="vudu" src="assets/icons/vudu.jpeg" alt="" class="icon">
+							<label for="vudu">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="google-play" src="assets/icons/google-play.jpeg" alt="" class="icon">
+							<label for="google-play">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="cinemanow" src="assets/icons/cinemanow.jpeg" alt="" class="icon">
+							<label for="cinemanow">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="youtube-play" src="assets/icons/youtube-play.png" alt="" class="icon">
+							<label for="youtube-play">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="sony" src="assets/icons/sony.png" alt="" class="icon">
+							<label for="sony">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+						<dd>
+							<img id="Verizon-On-Demand" src="assets/icons/Verizon-On-Demand.png" alt="" class="icon">
+							<label for="Verizon-On-Demand">
+								<dl class="prices">
+									<dd>HD: $6.99</dd>
+									<dd>SD: $2.99</dd>
+								</dl>
+							</label>
+						</dd>
+					</dl>
+					<dl id="web-sub-srcs">
+						<dt>Subscription</dt>
+						<dd>
+							<img id="starz_amazon_prime" src="assets/icons/starz.jpeg" alt="" class="icon">
+							<label for="starz_amazon_prime">$8.99 / month</label>
+						</dd>
+					</dl>
+					<dl id="web-tv-srcs">
+						<dt>TV</dt>
+						<dd>
+							<img id="starz_tveverywhere" src="assets/icons/starz.jpeg" alt="" class="icon">
+							<label for="starz_tveverywhere">$8.99 / month</label>
+						</dd>
+					</dl>-->
+				</div>
+
+
+			</section>
+		</div>
+	
+	</main> 
 
 	<script src="CryptoJS-v3.1.2/rollups/hmac-sha256.js"></script>
 	<script src="CryptoJS-v3.1.2/components/enc-base64-min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="icons.js"></script>
     <script type="text/javascript" src="app.js"></script>
+	<script src="https://use.fontawesome.com/9f828cce4e.js"></script>
+	<script type="text/javascript" src="./slick-1.6.0/slick/slick.min.js"></script>
 </body>
 </html>
