@@ -3,17 +3,21 @@
 	/*border: 1px solid red;*/
 }
 
+
+/* * * * * * * * * * * * * * Base / Mobile * * * * * * * * * * * * * * * */
 body {
-	margin: 0;
-	background: #2F3131;  /*426E86;*/   /*F8F1E5;*/
+	margin-top: 100px;
+	/*background: #191a1a;*/
+		 /* darker #252727; */ /* light #2F3131;/*  /*426E86;*/   /*F8F1E5;*/
+	background: #252727; 
 }
 
-header {
-	/*position: relative;*/
+#banner {
+	position: fixed;
 	top: 0;
 	left: 0;
 	text-align: center;
-	background: #426E86; 
+	background: rgb(42, 70, 85);/*#426E86; */
 	width: 100%;
 	padding: 10px;
 	padding-bottom: 0;
@@ -21,9 +25,9 @@ header {
 	z-index: 10;
 }
 
-header h1 {
+#banner h1 {
 	color: #2F3131;
-	text-shadow: #F9BA32 0 0 1px;
+	text-shadow: #F9BA32 0 0 5px;
 	margin: 0;
 	font-size: 40px;
 	display: inline-block;
@@ -46,7 +50,7 @@ header h1 {
 }
 
 #submit {
-	background: #426E86;
+	background: rgb(42, 70, 85);
 	width: 40px;
 	height: 40px;
 	margin-top: 3px;
@@ -91,11 +95,6 @@ header h1 {
 }
 
 
-
-
-
-
-
 .landing img:active {
 	box-shadow: 0 0 20px #F8F1E5; 
 	transition: all 0.6s ease 0s;
@@ -104,10 +103,10 @@ header h1 {
 
 
 .main-header {
-	color: #426E86;
+	color: rgb(42, 70, 85);
 	display: inline-block;
 	margin: 10px auto;
-	text-shadow: 0 0 1px #F9BA32;
+	text-shadow: 0 0 15px #F9BA32;
 }
 
 .movie-poster {
@@ -142,7 +141,7 @@ header h1 {
 }
 
 @media only screen and (max-width: 415px){
-	header {
+	#banner {
 		position: fixed;
 	}
 
@@ -157,13 +156,13 @@ header h1 {
 		margin-bottom: 20px;
 	}
 }
-
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 
 /*@media only screen and (min-width: 640px){
 
-	header h1 {
+	#banner h1 {
 		font-size: 20px;
 	}
 
@@ -173,12 +172,27 @@ header h1 {
 	
 }*/
 
+/* * * * * * * * * * * * *    DESKTOP   * * * * * * * * * * * * * * */
 @media only screen and (min-width: 660px){
+	#banner {
+		padding: 0;
+		display: table;
+	}
+
+	#logo{
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	.search-form {
+		width: auto;
+		margin-left: 75px;
+	}
 
 	#query {
-			width: 750px;
-			/*margin-left: */
-			margin-bottom: 30px;
+		width: 300px;
+		/*margin-left: */
+		margin-bottom: 30px;
 	}
 
 	#submit {
@@ -205,34 +219,42 @@ header h1 {
 	}
 
 	
-
-	.detail-page {
+	 /*   Detail Page  */
+	#detail-page {
 		color: #F8F1E5;
 		position: relative;
 		margin-top: 30px;
-		border: 1px solid white;
+		/*border: 1px solid white;*/
 		height: 700px;
 	}
 
-	.detail-page dd{
+	#detail-page dd{
 		margin-left: 0;
 		display: inline-block;
+		vertical-align: top;
 	}
 
 
-	.detail-page a {
+	#detail-page a {
 		text-decoration: none;
 	}
 
-	.detail-page a:link {
+	#detail-page a:link {
 		color: #F8F1E5;
 	}
 
-	.detail-page a:visited {
+	#detail-page a:visited {
 		color: aqua;
 	}
 
+	#movie-content {
+		position: relative;
+		margin-top: 30px;
+	}
+
 	#detail-poster-container {
+		position: absolute;
+		top: 0;
 		display: inline-block;
 		width: 240px;
 		font-size: 0;
@@ -257,83 +279,194 @@ header h1 {
 		font-size: 15px;
 	}
 
-	#stream-options {
-		display: inline-block;
-		position: absolute;
-		top: 0;
-		right: 0;
-		border: 1px solid white;
-		/*width: 70%;*/
+	
+
+	/*  Streaming Options  */
+		#stream-options {
+			display: inline-block;
+			/*position: absolute;*/
+			color: #F8F1E5;
+			top: 0;
+			right: 0;
+			margin-bottom: 5px;
+			margin-left: 30%;
+			padding: 5px;
+			/*border: 1px solid white;*/
+			width: 70%;
+		}
+
+
+		#stream-options dl {
+			/*margin: 0;*/
+		}
+
+		#web-purch-srcs > dd {
+			margin: 0 3px;;
+		}
+
+		#stream-options dd label{
+			display: block;
+			font-size: 10px;
+			cursor: pointer;
+		}
+
+		#stream-options > label {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+
+		#stream-options dl.prices dd{
+			display: block;
+		}
+
+		.prices dd {
+			display: block;
+		}
+
+
+		#stream-options > dl {
+			position: relative;
+			text-align: left;
+			/*border-bottom: 1px solid white;*/
+			padding-left: 30px;
+			overflow: hidden;
+			padding: 10px;
+			background: rgba(42, 70, 85, 0.3);/*gba(248, 241, 229, 0.6);*/
+			border-radius: 5px;
+			/*box-shadow: 0 0 15px 3px black inset;*/
+			box-shadow: 0 0 15px 1px black inset;
+		}
+
+		#web-purch-srcs > dd,
+		#web-sub-srcs > dd,
+		#web-free-srcs > dd,
+		#web-tv-srcs > dd {
+			display: table;
+		}
+
+		#web-purch-srcs dt,
+		#web-sub-srcs dt,
+		#web-free-srcs dt,
+		#web-tv-srcs dt {
+			/*position: fixed;*/
+		}
+
+		#web-purch-srcs dl,
+		#web-sub-srcs dl,
+		#web-free-srcs dl,
+		#web-tv-srcs dl {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		
+	
+		#stream-options .slick-next,
+		#stream-options .slick-prev {
+			z-index: 5;
+			top: 20%;
+			width: 20px;
+		}
+
+		#stream-options .slick-next {
+			right: 10px;
+		}
+
+
+		#stream-options .slick-prev {
+			left: 0;
+		}
+
+		.slick-prev:before, .slick-next:before { 
+			font-family: "slick"; 
+			font-size: 40px; 
+			line-height: 1; 
+			color: #f9ba32; 
+			opacity: .9; 
+			-webkit-font-smoothing: antialiased; 
+			-moz-osx-font-smoothing: grayscale; 
+		}   
+
+		.slick-prev:before { 
+			font-family: FontAwesome;
+			content: "\f053"; 
+		}
+		
+		.slick-next:before { 
+			font-family: FontAwesome;
+			content: "\f054";  
+		}
+
+	/* ********* Movie metaData ********* */	
+
+	#iframe-container {
+		width: 650px;
+		height: 366px;
+		float: right;
+		background: rgba(0,0,0,0.01);
+		overflow: hidden;
+		border: 1px solid red;
 	}
 
-	#stream-options  {
-		color: #F8F1E5;
-		margin-bottom: 5px;
-	}
-
-	#stream-options dl {
-		margin: 0;
-	}
-
-	#web-purch-srcs > dd {
-		margin: 0 3px;;
-	}
-
-	#stream-options dd label{
+	#trailer {
 		display: block;
-		font-size: 10px;
-	}
-
-	.prices dd {
-		display: block;
-	}
-
-	#web-purch-srcs,
-	#web-sub-srcs,
-	#web-free-srcs,
-	#web-tv-srcs {
-		text-align: left;
+		width: 100%;
+		height: 100%;
+		border: none;
+		overflow: hidden;
+		 -webkit-transform: scale(0.75);
+        -webkit-transform-origin: 0 0;
 		border: 1px solid white;
-		padding: 10px;
 	}
+
+	
 
 	/* *********Carrousel Styling********* */	
 	.carousel-container {
-		background: rgb(42, 70, 85);
-		width: 80%;
+		background: rgba(42, 70, 85, 0.5);
+		width: 95%;
 		overflow: hidden;
 		margin: 0 auto;
 		border-radius: 15px;
 	}
 
-	.detail-page li{
-		display: inline-block;
-		z-index: 2;
+	.carousel-container img {
+		box-shadow: 0 0 16px 2px rgba(0,0,0,0.5);
 	}
 
-	.detail-page li img:hover{
+	#detail-page li{
 		display: inline-block;
+		z-index: 2;
+		width: auto;
+	}
+
+	/*li.slick-slide.slick-active {
+		width: auto;
+	}*/
+
+	#detail-page li img:hover{
 		box-shadow: 0 0 20px #F8F1E5; 
 		 -webkit-transform:scale(1.05);
 		transition: all 0.3s ease 0s;
 	}
 
-	.slick-dotted.slick-slider
+	li.slick-dotted.slick-slider
 	{
 		margin: 0 3px;
 		padding: 10px;
 	}
 
-	.slick-next {
-		right: 5px;
+	.carousel-container .slick-next {
+		/*right: 5px;*/
 	}
 	
 
-	.slick-prev {
-		left: 5px;
+	.carousel-container .slick-prev {
+		/*left: 5px;*/
 	}
-	.slick-next,
-	.slick-prev {
+
+	.carousel-container .slick-next,
+	.carousel-container .slick-prev {
 		top: 10%;
 		z-index: 5;
 	}
@@ -347,7 +480,7 @@ header h1 {
 		transform: translate3d(-3px, -3px, 0px);
 	}
 }
-
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
 Modern & Urban -- Current
