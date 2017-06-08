@@ -21,7 +21,7 @@ body {
 	width: 100%;
 	padding: 10px;
 	padding-bottom: 0;
-	box-shadow: 0 0 10px #426E86;
+	box-shadow: 0 0 30px rgba(0,0,0,0.5);
 	z-index: 10;
 }
 
@@ -106,7 +106,7 @@ body {
 	color: rgb(42, 70, 85);
 	display: inline-block;
 	margin: 10px auto;
-	text-shadow: 0 0 15px #F9BA32;
+	text-shadow: 0 0 8px #F9BA32;
 }
 
 .movie-poster {
@@ -428,6 +428,8 @@ body {
 		overflow: hidden;
 		margin: 0 auto;
 		border-radius: 15px;
+		box-shadow: inset 13px -2px 18px 4px rgba(0,0,0,0.5), 
+					inset -13px -2px 18px 4px rgba(0,0,0,0.5);
 	}
 
 	.carousel-container img {
