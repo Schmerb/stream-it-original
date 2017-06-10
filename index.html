@@ -8,6 +8,7 @@
 	<!-- Normalize.css, a cross-browser reset file -->
  	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./slick-1.6.0/slick/slick-theme.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Droid+Serif|Open+Sans|Open+Sans+Condensed:300|Raleway|Roboto+Condensed|Rubik" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="styles/main.css">
 	<link rel="stylesheet" type="text/css" href="styles/float-grid.css">
 	<!--<link rel="stylesheet" type="text/css" href="styles/horizontal-scroll.css">-->
@@ -15,6 +16,7 @@
 <body>
 	<header id="banner">
 		<h1 id="logo">Stream It</h1>
+		<img id="monitor" src="assets/png/monitor.png" alt="">
 		<form class="search-form" autocomplete="off">
 			<input id="query" class="js-movie-query" type="text" name="movie-query" placeholder="Search for movies or tvshows . . ." required>
 			<button for="query" id="submit" type="submit"><svg id="search-glass" version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M14 8c1.656 0 3 1.344 3 3s-1.344 3-3 3-3-1.344-3-3 1.344-3 3-3m0-1c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zM4.195 17.674c0 1.727 1.404 3.131 3.131 3.131.756 0 1.503-.277 2.104-.783l2.397-2.386c.685.227 1.412.364 2.173.364 3.86 0 7-3.141 7-7s-3.14-7-7-7c-3.859 0-7 3.141-7 7 0 .761.136 1.486.364 2.173l-2.245 2.283c-.596.59-.924 1.378-.924 2.218zm6.459-1.694l-2.512 2.511c-.223.187-.504.313-.816.313-.624 0-1.131-.506-1.131-1.131 0-.311.127-.594.332-.797l2.492-2.531c.435.645.99 1.2 1.635 1.635zm3.346.02c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></button>
@@ -24,12 +26,14 @@
 	<main>
 		<div class="container">
 			<section class="landing hidden">
-				<h1 class="main-header">Browse Popular Titles</h1>
+				<h1 class="landing-header">Browse Popular Titles</h1>
 
 			</section>
-			
-			<section id="detail-page" class="">
+			<section id="detail-page" class="hidden">
 				<div class="carousel-container">
+					<h3>'<span id="user-query">Search</span>' Results:</h3>
+					<div id="carousel-overlay-left"></div>
+					<div id="carousel-overlay-right"></div>
 					<ul class="responsive js-carousel-ul">
 						<li><img src="./assets/posters/alien-small-120x171.jpg"></li>
 						<li><img src="./assets/posters/aliens-small-120x171-alt-.jpg"></li>
@@ -42,23 +46,34 @@
 					</ul>
 				</div>  
 				
-				<section id="movie-content">
-					<div id="detail-poster-container">
-						<img id="detail-poster" src="http://static-api.guidebox.com/060515/thumbnails_movies_medium/130292-1141974368-8875474711-2946272376-medium-240x342-alt-.jpg" alt=""> <!--http://static-api.guidebox.com/060515/thumbnails_movies_medium/130292-1141974368-8875474711-2946272376-medium-240x342-alt-.jpg-->
-						<div id="poster-title">
-							<label>War Room</label><br>
-							<span>(2015)</span>
+				<section id="movie-content" class="">
+					<div id="movie-banner" class="">
+						<!--<img src="http://static-api.guidebox.com/012915/movies/banners/48055-43788692-2098140279-4264416555-756x140.jpg" alt="">-->
+						<img src="http://static-api.guidebox.com/012915/movies/banners/48055-43788692-2098140279-4264416555-1000x185.jpg" alt=""> <!-- http://static-api.guidebox.com/012915/movies/banners/48055-43788692-2098140279-4264416555-1000x185.jpg -->
+					</div>
+					<section id="detail-poster-container">
+						<div>
+							<label id="poster-title">Alien</label><br>
+							<ul>
+								<li id="movie-release-year">1979</li>
+								<li id="movie-rated">R</li>
+								<li id="runtime">1hr 23min</li>
+							</ul>
+							<!--<span>1979 | R | 1hr 23min</span>-->
 						</div>
+						<a id="poster-link" href="#" target="__blank"><img id="detail-poster" src="http://static-api.guidebox.com/thumbnails_movies_medium/34532-9877389450-763375569-6332412879-medium-240x342.jpg" alt=""></a> <!--http://static-api.guidebox.com/060515/thumbnails_movies_medium/130292-1141974368-8875474711-2946272376-medium-240x342-alt-.jpg-->
 						<div id="movie-ratings">
 							<img id="imdb" src="assets/icons/imdb-long.png" alt="" class="rating-icon">
-							<label for="imdb"></label>
+							<label for="imdb">7.0 / 10</label>
 							<img id="rotten-score" src="assets/icons/rotten-tomatoe.png" alt="" class="rotten">
-							<label for="rotten-score"></label>
+							<label for="rotten-score">100%</label>
+							<img id="metacritic-score" src="assets/icons/metacritic.png" alt="" class="rotten">
+							<label for="metacritic-score"></label>
 						</div>
-					</div>
+					</section>
 
-					<div id="stream-options">
-						<label for="#web-purch-srcs">Buy &emsp;&emsp; / &emsp;&emsp;  Rent</label>
+					<section id="stream-options">
+						<label for="#web-purch-srcs">Buy &emsp; / &emsp;  Rent</label>
 						<dl id="web-purch-srcs" class="streaming-links-slider">
 							
 							<dd>
@@ -134,7 +149,7 @@
 								</label>
 							</dd>
 						</dl>
-						
+						<hr class="shadow-hr">
 						<label for="#web-sub-srcs">Subscription</label>
 						<dl id="web-sub-srcs" class="streaming-links-slider">
 							
@@ -142,30 +157,50 @@
 								<img id="starz_amazon_prime" src="assets/icons/starz.jpeg" alt="" class="icon">
 								<label for="starz_amazon_prime">$8.99 / month</label>
 							</dd>
-						</dl>
-						
-						<label for="#web-tv-srcs">TV</label>
-						<dl id="web-tv-srcs" class="streaming-links-slider">
-							
-							<dd>
-								<img id="starz_tveverywhere" src="assets/icons/starz.jpeg" alt="" class="icon">
-								<label for="starz_tveverywhere">$8.99 / month</label>
-							</dd>
 							<dd>
 								<img id="starz_amazon_prime" src="assets/icons/starz.jpeg" alt="" class="icon">
 								<label for="starz_amazon_prime">$8.99 / month</label>
 							</dd>
 						</dl>
-					</div>
+						<hr class="shadow-hr">
+						<label for="#web-tv-srcs">TV</label>
+						<dl id="web-tv-srcs" class="streaming-links-slider">
+							
+							<dd>
+								<img id="starz_tveverywhere" src="assets/icons/starz.jpeg" alt="" class="icon">
+								<label for="starz_tveverywhere">Included with STARZ tv package</label>
+							</dd>
+						</dl>
+					</section>
 
-					
-					<div id="iframe-container">
-						<iframe id="trailer" src="http://api-widget.guidebox.com/embed.php?video=2238" allowfullscreen> 
-					</div>
-					<!--http://demo.guidebox.com/embed.php?video=9298-->
-					<!--"http://api-widget.guidebox.com/embed.php?video=2238"-->
+					<section id="movie-assets">
+						<div class="metadata">
+							<ul>
+								<li>Synopsis ~
+									<p id="plot">After a space merchant vessel perceives an unknown transmission as a distress call, its landing on the source moon finds one of the crew attacked by a mysterious life-form, and they soon realize that its life cycle has merely begun.</p>
+								</li>
+								<li>Director &nbsp;&nbsp;~ <span id="director">Ridley Scott</span></li>
+								<li>Writers &nbsp;&nbsp;&nbsp;~ <p id="writers">Dan O'Bannon, Ronald Shusett</p></li>
+								<li>Starring &nbsp;&nbsp;~ <p id="cast">Tom Skerritt, Sigourney Weaver, Veronica Cartwright, Harry Dean Stanton</p></li>
+							</ul>
+						</div>
+						
+						<div id="trailer-container" class="">
+							<div id="thumbnail-container" >
+								<input type="image" id="main-trailer-thumbnail" name="" src="http://static-api.guidebox.com/041014/thumbnails_episodes/34532-2238--938415600-225131033-medium-304x171938415600.jpg" value="">
+								<label for="main-trailer-thumbnail"><i id="trailer-thumbnail-play-btn" class="fa fa-play-circle-o" aria-hidden="true"></i></label>
+							</div>
+							<div id="iframe-container" class="">
+								<div id="modal-filter" class="hidden"></div>
+								<iframe id="iframe" class="hidden" src="" allowfullscreen> 
+								</iframe>
+							</div>
+						</div>
+						<hr class="shadow-hr">
+					</section>
+				
 
-					</iframe>
+					<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 				
 				</section> <!-- movie content -->
 
@@ -175,13 +210,14 @@
 	
 	</main> 
 
-	<script src="CryptoJS-v3.1.2/rollups/hmac-sha256.js"></script>
-	<script src="CryptoJS-v3.1.2/components/enc-base64-min.js"></script>
-
+	<!--<footer>
+		<span>copyright &copy; 2017, Michael Schmerbeck</span>
+	</footer>-->
 
 	<script src="https://code.jquery.com/jquery-3.0.0.js"></script>
 	<script type="text/javascript" src="./slick-1.6.0/slick/slick.min.js"></script>
 	<script src="https://use.fontawesome.com/9f828cce4e.js"></script>
+	<script src="https://use.fontawesome.com/3e1d7b509c.js"></script>
     <script type="text/javascript" src="icons.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>
