@@ -40,7 +40,7 @@ var icons = {
     seeso_amazon_prime: 'assets/icons/seeso_app_icon.jpg',
     showtime: 'assets/icons/showtime.jpeg',
     shudder: 'assets/icons/shudder.jpeg',
-    sony: 'assets/icons/sony.png',
+    sony: 'assets/icons/sony-main.png',
     starz: 'assets/icons/starz.jpeg',
     starz_amazon_prime: 'assets/icons/starz.jpeg',
     starz_tveverywhere: 'assets/icons/starz.jpeg',
