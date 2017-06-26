@@ -736,16 +736,7 @@ function getShowMetadata(showID, callback) {
     $.getJSON(SHOW_GBOX_BASE_URL, query, callback);
 }
 
-function searchIMDB(id, callback) {
-    (arguments.length == 1) ? callback = printRespToConsole : null;
-    var IMDB_URL = 'https://www.omdbapi.com/';
-    var query = {
-        i: id,
-        plot: 'short',
-        apikey: '48bffb4a'
-    };
-    $.getJSON(IMDB_URL, query, callback);
-}
+
 
 function searchItunes(mediaType, requestData, callback) {
     (arguments.length == 2) ? callback = printRespToConsole : null;
@@ -794,6 +785,66 @@ function getNewMovies(timestamp, callback) {
         time: timestamp
     };
     $.getJSON(NEW_MOVIES_URL, query, callback);
+}
+
+// // * * * * * * * * * * * * * * * * * * * * * * * * * 
+// //  OMDB API calls
+// // * * * * * * * * * * * * * * * * * * * * * * * * * 
+// function searchIMDB(id, callback) {
+//     (arguments.length == 1) ? callback = printRespToConsole : null;
+//     var IMDB_URL = 'https://www.omdbapi.com/';
+//     var query = {
+//         i: id,
+//         plot: 'short',
+//         apikey: '48bffb4a'
+//     };
+//     $.getJSON(IMDB_URL, query, callback);
+// }
+
+// function searchPosterOMDB(id, callback) {
+//     (arguments.length == 1) ? callback = printRespToConsole : null;
+//     var POSTER_OMDB_URL = 'http://img.omdbapi.com/';
+//     var query = {
+//         i: 'tt3896198',
+//         h: 600,
+//         apikey: '48bffb4a',
+//     };
+//     $.getJSON(POSTER_OMDB_URL, query, callback);
+// }
+
+//i=tt3896198&h=600&apikey=48bffb4a
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * 
+//  VidSource API calls
+// * * * * * * * * * * * * * * * * * * * * * * * * * 
+var VIDSOURCE_BASE_URL = 'http://www.vidsourceapi.com/webservice.asmx';
+
+function getStreamUrlByImdbId() {
+    var STREAM_URL = VIDSOURCE_BASE_URL + '/GetStreamEmbedUrlByIMDBID';
+    var query = {
+        apikey: 'ZXuWvgJEKeEw3BPq',
+        imdbid: 'tt0078748',
+        redirection: true
+    };
+    // debugger;
+    //http://www.vidsourceapi.com/WebService.asmx/GetStreamEmbedUrlByIMDBIDs?apikey=ZXuWvgJEKeEw3BPq&imdbids=0816692,2395427
+    $.getJSON('STREAM_URL', query, function(resp) {
+        debugger;
+        console.log(resp);
+    });
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * 
+//  SpiderVideo API calls
+// * * * * * * * * * * * * * * * * * * * * * * * * * 
+function getVideoSpider() {
+    var VIDSPIDER_URL = 'http://videospider.in/getvideo';
+    var query = {
+        key: '193447211',
+        video_id: 'tt0078748'
+    }
+
+    $.getJSON(VIDSPIDER_URL, query, printRespToConsole);
 }
 
 
@@ -913,7 +964,7 @@ function checkScrollPosition() {
         var scrollEnd = 100;
 
         if (scroll > scrollStart && scroll <= scrollEnd) {
-            console.log(scroll);
+            console.log('first: ', scroll);
             var newHeight = (scroll - scrollStart) / (scrollEnd - scrollStart) * (heightEnd - heightStart) + heightStart;
             console.log(newHeight);
             collapseNav(newHeight + 'px');
@@ -924,7 +975,7 @@ function checkScrollPosition() {
         }
 
         if (scroll <= scrollStart) {
-            console.log(scroll);
+            console.log('last: ', scroll);
             var newHeight = (scroll - scrollStart) / (scrollEnd - scrollStart) * (heightEnd - heightStart) + heightStart;
             console.log(newHeight);
             uncollapseNav(newHeight + 'px');
@@ -937,6 +988,7 @@ function collapseNav(newHeight) {
     $('.monitor').fadeOut(200);
     $('.banner').stop().animate({height: newHeight}, { // 48px
                                 duration: 100,
+                                easing: 'linear',
                                 step: function(currentHeight) {
                                     // console.log("height: ", currentHeight);
                                 }
@@ -948,6 +1000,7 @@ function uncollapseNav(newHeight) {
     $('.monitor').fadeIn(200);
     $('.banner').stop().animate({height: newHeight}, { // 100px
                                 duration: 100,
+                                easing: 'linear',
                                 step: function(currentHeight) {
                                     // console.log("height: ", currentHeight);
                                 }
@@ -975,7 +1028,44 @@ var textFile = null,
     return textFile;
   };
 
+//* * * * * * * * * * * * * * * * * * * * * * * * * 
+//  OMDB API calls
+// * * * * * * * * * * * * * * * * * * * * * * * * * 
+var IMDB_URL = 'https://www.omdbapi.com/';
 
+function searchByIdOMDB(id, callback) {
+    (arguments.length == 1) ? callback = printRespToConsole : null;
+    var query = {
+        i: id,
+        plot: 'short',
+        apikey: '48bffb4a'
+    };
+    $.getJSON(IMDB_URL, query, callback);
+}
+
+function searchCustomOMDB(params, callback) {
+    (arguments.length == 1) ? callback = printRespToConsole : null;
+    var query = {
+        apikey: '48bffb4a'
+    };
+    Object.keys(params).forEach(function(key) {
+        // query[key] = params[key];
+    });
+
+    Object.assign(query, params);
+    console.log(query);
+}
+
+function searchPosterOMDB(id, callback) {
+    (arguments.length == 1) ? callback = printRespToConsole : null;
+    var POSTER_OMDB_URL = 'http://img.omdbapi.com/';
+    var query = {
+        i: 'tt3896198',
+        h: 600,
+        apikey: '48bffb4a',
+    };
+    $.getJSON(POSTER_OMDB_URL, query, callback);
+}
 
 
 // ================================================================================
@@ -1011,7 +1101,7 @@ $(function() {
     // getAllMovieImages(48055);
 
     initBannerSlick();
-    // initStreamingSlick();
+    initStreamingSlick();
 
     // searchIMDB('tt0078748', function(resp) {
     //     var textStr = JSON.stringify(resp);
@@ -1022,9 +1112,24 @@ $(function() {
 
     // readTextFile('file:///Users/schmerb/Desktop/Projects/Thinkful/front-end-flex/capstone/assets/imdb-json.txt');
 
-    getQuota();
+    // getQuota();
     // getAllMovieTrailers(48055);
     // getAllMovieTrailers(48055);
+
+    // getStreamUrlByImdbId();
+    // getVideoSpider();
+
+    // searchPosterOMDB('tt0078748', function(resp) {
+    //     debugger;
+    //     console.log(resp);
+    // });
+
+    // searchIMDB('tt0078748');
+
+    searchCustomOMDB({
+        id: 888,
+        s: 'yeeee'
+    });
 });
 
 

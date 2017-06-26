@@ -18,9 +18,9 @@ body {
 	/*background: #191a1a;*/
 		 /* darker #252727; */ /* light #2F3131;/*  /*426E86;*/   /*F8F1E5;*/
 	/*background: #252727; */
-	background: url('../assets/backgrounds/diagonal-texture-black.jpg') center;
+	background: url('../assets/backgrounds/textures/diagonal-texture-black.jpg') center;
 	/*background-size: cover;*/
-	border: 2px solid white;
+	/*border: 2px solid white;*/
 	color: #F8F1E5;
 }
 
@@ -156,7 +156,7 @@ body {
  /* * * * * * * * * * * * Main Body * * * * * * * * * * */
 
 main {
-	border: 2px solid red;
+	/*border: 2px solid red;*/
 	margin-top: 110px;
 }
 
@@ -237,11 +237,11 @@ main {
 }
 
 li.slick-slide {
-	max-width: 65px;
+	max-width: 100px;
 }
 
 li.slick-slide img {
-	height: 75px;
+	height: 120px;
 }
 
 .responsive li {
@@ -392,6 +392,10 @@ label[for="#web-purch-srcs"] {
 	/*right: 50%;*/
 }
 
+.definition-span {
+	color: #df9a07;
+}
+
 #web-sub-srcs .source-icon-name label,
 #web-tv-srcs .source-icon-name label {
 	
@@ -474,8 +478,7 @@ label[for="main-trailer-thumbnail"] {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-top: -25px;
-	margin-left: -22px;
+	transform: translateX(-50%) translateY(-50%);
 }
 
 #trailer-thumbnail-play-btn {
@@ -507,26 +510,37 @@ label[for="main-trailer-thumbnail"] {
 }
 
 footer {
-	/*background: rgba(113, 136, 47, 0.5);*/
-	/*background: rgba(50,50,50, 0.5);*/
 	position: relative;
-	/*background: rgba(248, 241, 229, 0.8);*/
-	/*background: rgba(16, 32, 39, 1);*/
 	background: rgba(41, 67, 78, 0.9);
+	background: rgba(223, 154, 7, 0.6);
 	color: #df9a07;
+	color: #F8F1E5;
 	text-align: center;
 	width: 100%;
 	height: 100px;
 }
 
 footer span {
+	position: absolute;
+	bottom: 5px;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 /* =================================================================================/
 /* Mobile Only
 /* ================================================================================*/
-/*@media only screen and (max-width: 415px){
-	#banner {
+@media only screen and (max-width: 415px){
+	.source-icon-name::after {
+		/*content: '\a';*/
+	}
+
+	.synopsis,
+	#plot {
+		display: none;
+	}
+	
+	/*#banner {
 		position: fixed;
 	}
 
@@ -539,23 +553,10 @@ footer span {
 	.poster {
 		display: inline-block;
 		margin-bottom: 20px;
-	}
-}*/
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}*/
+}
 
 
-
-/*@media only screen and (min-width: 640px){
-
-	#banner h1 {
-		font-size: 20px;
-	}
-
-	main {
-		
-	}
-	
-}*/
 
 /* =================================================================================/
 /* Desktop 
@@ -650,7 +651,7 @@ footer span {
 		position: absolute;
 		top: 0;
 		width: 20px;
-		height: 212px;
+		height: 161px;
 		margin: 0 auto;
 		z-index: 5;
 	}
@@ -714,8 +715,13 @@ footer span {
 		/*border: 1px solid white;*/
 	}
 
+	#stream-options {
+		clear: none;
+	}
+
 	#stream-options dd{
-		margin-left: 0;
+		margin: 0;
+		margin-left: 5px;
 		display: inline-block;
 		vertical-align: top;
 	}
@@ -731,6 +737,39 @@ footer span {
 
 	#stream-options a:visited {
 		color: aqua;
+	}
+
+
+
+	.source,
+	.source:nth-child(even) {
+		background: transparent;
+		padding: 0;
+	}
+
+	.source ul {
+		position: static;
+		display: block;
+	}
+
+	.source li {
+		margin: 0;
+	}
+
+	.source-icon-name {
+		margin: 0;
+	}
+
+	.source-icon-name:hover {
+		cursor: pointer;
+	}
+
+	.source-icon-name label {
+		margin-top: 0;
+	}
+
+	.prices dt {
+		color: #df9a07;
 	}
 
 	#movie-content {
@@ -751,8 +790,9 @@ footer span {
 	#detail-poster-container {
 		display: inline-block;
 		float: left;
-		width: 240px;
+		width: 30%;
 		font-size: 0;
+		/*border: 1px solid white;*/
 	}
 
 	#poster-title {
@@ -761,24 +801,27 @@ footer span {
 		margin: 0 auto 5px;
 	}
 
-	/*#detail-poster-container ul {
-		font-size: 14px;
-		margin: 0;
-		padding: 0;
+	#poster-link {
+		float: none;
 	}
 
-	#detail-poster-container li {
+	#detail-poster {
+		display: block;
+		width: 90%;
+	}
+
+	#poster-number-metadata {
+		float: none;
+		max-width: initial;
+	}
+
+	#poster-number-metadata ul {
 		display: inline-block;
 	}
 
-	#detail-poster-container li:not(:last-of-type)::after {
-		content: ' |';
-		font-size: 13px;
-		vertical-align: top;
-	}*/
-
 	#movie-ratings {
 		font-size: 15px;
+		float: none;
 	}
 
 	#movie-ratings label:not(:last-child) {
@@ -800,11 +843,16 @@ footer span {
 		padding: 5px;
 		/*border: 1px solid white;*/
 		width: 70%;
+		font-size: 10px;
 	}
 
 
 	#stream-options dl {
 
+	}
+
+	label[for="#web-purch-srcs"] {
+		margin-left: 0;
 	}
 
 	#web-purch-srcs > dd {
@@ -814,6 +862,8 @@ footer span {
 	#stream-options dd label{
 		display: block;
 		font-size: 10px;
+		margin-bottom: 5px;
+		padding-left: 5px;
 		cursor: pointer;
 	}
 
@@ -826,9 +876,12 @@ footer span {
 		display: block;
 	}
 
-	.prices dd {
-		display: block;
+	.prices dt {
+		padding-left: 20px;
+		padding-bottom: 5px;
 	}
+
+	
 
 
 	#stream-options > dl {  /* Same as #web- <ALL> -srcs */
@@ -867,8 +920,15 @@ footer span {
 		display: table-cell;
 		vertical-align: middle;
 	}
-	
 
+	#web-sub-srcs .package-price,
+	#web-tv-srcs .package-price  {
+		padding-top: 0;
+		padding-left: 5px;
+		float: none;
+	}
+	
+	
 	#stream-options .slick-next,
 	#stream-options .slick-prev {
 		z-index: 5;
@@ -922,6 +982,10 @@ footer span {
 		/*border: 1px solid red;*/
 	}
 
+	#mobile-plot {
+		display: none;
+	}
+
 	#plot {
 		margin: 0;
 	}
@@ -933,6 +997,15 @@ footer span {
 	.metadata ul > li{
 		color: #df9a07;
 		margin-bottom: 5px;
+	}
+
+	.metadata span {
+		display: inline-block;
+		width: 86px;
+	}
+
+	.metadata span::after {
+		float: right;
 	}
 
 	#plot,
@@ -958,19 +1031,20 @@ footer span {
 	}
 
 	#director {
-		padding-left: 0;;
+		/*padding-left: 4px;*/
 	}
 
 	#writers {
-		padding-left: 4px;
+		/*padding-left: 15px;*/
 	}
 
 	#cast {
-		padding-left: 4px;
+		/*padding-left: 10px;*/
 	}
 
 	#trailer-container {
 		display: inline-block;
+		float: right;
 	}
 
 	#modal-filter {
@@ -988,13 +1062,6 @@ footer span {
 	}
 
 	#trailer-thumbnail-play-btn {
-		position: absolute;
-		color: #df9a07;
-		top: 50%;
-		left: 50%;
-		margin-top: -20px;
-		margin-left: -20px;
-		font-size: 40px;
 	}
 
 	#trailer-thumbnail-play-btn:hover {
